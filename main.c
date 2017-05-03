@@ -56,14 +56,14 @@ void writefile(const uint8_t *f, const uint8_t *b)  {
 }
 
 void print_usage() {
-    printf("usage: rsx112crypt [-h] [-D] [-s SKIPBYTES] -c {rc4,aes-ecb,aes-cbc,aes-ctr} -d [--decrypt] -k KEYFILE [--iv IV] -i INFILE -o OUTFILE\n\n "
+    printf("usage: rsx112crypt [-h] [-D] [-s SKIPBYTES] -c {1-3} (1:rc4,2:aes-ecb,3:aes-cbc) -d [--decrypt] -k KEYFILE [--iv IV] -i INFILE -o OUTFILE\n\n "
                    "Encrypt or decypt a file\n\n"
                    "optional arguments:\n"
                    "-h, --help show this help message and exit\n"
                    "-D, --debug Enable debug diagnostics\n"
                    "-s SKIPBYTES, --skipbytes SKIPBYTES\n"
                    "Number of bytes to copy unmodified (default: 0)\n"
-                   "-c , --cipher {1(rc4), 2(aes-ecb), 3(aes-cbc), 4(aes-ctr)}\n"
+                   "-c , --cipher 1(rc4), 2(aes-ecb), 3(aes-cbc)\n"
                    "Cipher to use\n"
                    "        -k KEYFILE, --keyfile KEYFILE\n"
                    "                              Key file name\n"
