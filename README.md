@@ -19,3 +19,9 @@ Number of bytes to copy unmodified (default: 0)
 --iv IV Initialization Vector file name (CBC only)  
 -i INFILE, --infile INFILE Input file name  
 -o OUTFILE, --outfile OUTFILE Output file name  
+
+## Compilation
+
+```bash
+$ gcc -O3 -o rsx112crypt main.c aes.c
+```
