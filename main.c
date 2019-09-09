@@ -49,7 +49,7 @@ uint8_t *readfile(const uint8_t *f) {
 void writefile(const uint8_t *f, const uint8_t *b)  {
     FILE *fo = fopen((const char *) f, "w+b");
     fwrite(b, sizeof(uint8_t), (size_t) filesize, fo);
-    if (debug_mode == 1) {
+    if (debug_mode) {
         printf("\n%zu octets écrits dans le fichier de sortie\n", filesize);
     }
     fclose(fo);
@@ -86,7 +86,7 @@ void rc4(const uint8_t *keyfile, const uint8_t *inputfile, const uint8_t *output
     int i, j = 0;
     // Initialisation du tableau
     key = readfile(keyfile);
-    if (debug_mode == 1) {
+    if (debug_mode) {
         printf("Longueur de clé: %zu octets (%ld bits)\n\n", filesize, filesize * 8);
     }
     int s[256], k[256], t[256];
@@ -100,7 +100,7 @@ void rc4(const uint8_t *keyfile, const uint8_t *inputfile, const uint8_t *output
          t[i] = s[j];
          s[j] = s[i];
          s[i] = t[i];
-         if (debug_mode == 1) {
+         if (debug_mode) {
              printf("%d ", s[i]);
          }
      }
@@ -131,7 +131,7 @@ void rc4(const uint8_t *keyfile, const uint8_t *inputfile, const uint8_t *output
     free(entree);
 
     filesize = c;
-    if (debug_mode == 1) {
+    if (debug_mode) {
         printf("\n\nIterations: %d Taille du buffer de sortie: %zu\n", c, filesize);
     }
     writefile(outputfile, sortie);
@@ -141,13 +141,13 @@ void rc4(const uint8_t *keyfile, const uint8_t *inputfile, const uint8_t *output
 void aes128_ebc(const uint8_t *keyfile, const uint8_t *inputfile, const uint8_t *outputfile, int decrypt) {
 
     key = readfile(keyfile);
-    if (debug_mode == 1) {
+    if (debug_mode) {
         printf("Longueur de clé: %zu octets (%ld bits)\n\n", filesize, filesize * 8);
     }
 
     entree = readfile(inputfile);
     sortie = malloc((size_t) filesize);
-    if (debug_mode == 1) {
+    if (debug_mode) {
         printf("Taille du buffer d'entrée et de sortie: %ld\n", filesize);
     }
 
@@ -155,7 +155,7 @@ void aes128_ebc(const uint8_t *keyfile, const uint8_t *inputfile, const uint8_t 
 
     if (offsetsize % 16 > 0) {
         long newsize = offsetsize + 16 - (offsetsize % 16);
-        if (debug_mode == 1) {
+        if (debug_mode) {
             printf("Taille initiale %ld étendue à %ld\n", offsetsize, newsize);
         }
         uint8_t *newentree = realloc(entree, (size_t) newsize);
@@ -177,7 +177,7 @@ void aes128_ebc(const uint8_t *keyfile, const uint8_t *inputfile, const uint8_t 
             AES128_ECB_decrypt(bufEntree, key, bufSortie);
         }
         memcpy(sortie + offset + i, bufSortie, 16);
-        if (debug_mode == 1)
+        if (debug_mode)
             printf("16 octets écrits dans le buffer de sortie à l'adresse %p, total de %d octets\n", (void *) sortie + i, i + 16);
     }
     memcpy(sortie, entree, offset);
@@ -189,18 +189,18 @@ void aes128_ebc(const uint8_t *keyfile, const uint8_t *inputfile, const uint8_t 
 
 void aes128_cbc(uint8_t *keyfile, uint8_t *initvector, uint8_t *inputfile, uint8_t *outputfile, int decrypt) {
     key = readfile(keyfile);
-    if (debug_mode == 1) {
+    if (debug_mode) {
         printf("Longueur de clé: %zu octets (%ld bits)\n\n", filesize, filesize * 8);
     }
 
     iv = readfile(initvector);
-    if (debug_mode == 1) {
+    if (debug_mode) {
         printf("Longueur de l'IV: %zu octets (%ld bits)\n\n", filesize, filesize * 8);
     }
 
     entree = readfile(inputfile);
     sortie = malloc((size_t) filesize);
-    if (debug_mode == 1) {
+    if (debug_mode) {
         printf("Taille du buffer d'entrée et de sortie: %ld\n", filesize);
     }
 
